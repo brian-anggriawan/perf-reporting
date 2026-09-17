@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "postinstall": "prisma generate --no-engine",
-    "build": "prisma generate --no-engine && next build",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write ."
@@ -14,7 +14,6 @@
     "@clerk/nextjs": "^6.12.2",
     "@eslint/eslintrc": "^3.2.0",
     "@prisma/client": "^6.16.2",
-    "@prisma/extension-accelerate": "^1.2.2",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-label": "^2.1.1",
