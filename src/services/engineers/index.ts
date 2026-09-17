@@ -1,4 +1,3 @@
-import { CACHE_STRATEGY } from "@/constants/server";
 import { prisma } from "@/services/db";
 
 export async function findEngineerOrganization(
@@ -8,10 +7,6 @@ export async function findEngineerOrganization(
     const engineerOrg = await prisma.engineerOrganization.findFirst({
       where: { engineerId },
       select: { organizationId: true },
-      cacheStrategy: {
-        ...CACHE_STRATEGY.DEFAULT,
-        tags: ["findEngineerOrganization"],
-      },
     });
 
     return engineerOrg?.organizationId || null;
@@ -39,10 +34,6 @@ export async function findAllEngineers(organizationId?: string) {
       },
       orderBy: {
         name: "asc",
-      },
-      cacheStrategy: {
-        ...CACHE_STRATEGY.DEFAULT,
-        tags: ["findAllEngineers"],
       },
     });
 

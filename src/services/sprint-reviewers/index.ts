@@ -2,7 +2,6 @@ import {
   APPROVED_STATUS_IDS,
   SPECIAL_TASK_PREFIXES,
 } from "@/constants/client";
-import { CACHE_STRATEGY } from "@/constants/server";
 import { prisma } from "@/services/db";
 
 export interface QATaskBreakdown {
@@ -47,10 +46,6 @@ export async function findQAPerformanceBySprintIds(
           },
         },
       },
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["qaPerformance"],
     },
   });
 
@@ -204,10 +199,6 @@ export async function findReviewerTasksDetailBySprintIds(
           },
         },
       },
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: [`reviewerTasks_${reviewerId}`],
     },
   });
 

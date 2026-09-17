@@ -5,7 +5,6 @@ import {
   NODEV_TAGS,
   SPECIAL_TASK_PREFIXES,
 } from "@/constants/client";
-import { CACHE_STRATEGY } from "@/constants/server";
 
 import { prisma } from "../db";
 import { findMRDetailsBySprintIdsAndEngineerId } from "../gitlab";
@@ -94,10 +93,6 @@ export async function findCountTasksByProject(sprintIds: string[]) {
       projectId: true,
       storyPoint: true,
     },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["parentTasksForProject"],
-    },
   });
 
   // Get all subtasks for these parent tasks
@@ -111,10 +106,6 @@ export async function findCountTasksByProject(sprintIds: string[]) {
         select: {
           parentTaskId: true,
           storyPoint: true,
-        },
-        cacheStrategy: {
-          ...CACHE_STRATEGY.DEFAULT,
-          tags: ["subtasksForProject"],
         },
       })
     : [];
@@ -154,10 +145,6 @@ export async function findCountTasksByProject(sprintIds: string[]) {
           id: true,
           name: true,
           color: true,
-        },
-        cacheStrategy: {
-          ...CACHE_STRATEGY.DEFAULT,
-          tags: ["projectNames"],
         },
       })
     : [];
@@ -207,10 +194,6 @@ export async function findCountTasksByCategory(sprintIds: string[]) {
       categoryId: true,
       storyPoint: true,
     },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["parentTasksForCategory"],
-    },
   });
 
   // Get all subtasks for these parent tasks
@@ -224,10 +207,6 @@ export async function findCountTasksByCategory(sprintIds: string[]) {
         select: {
           parentTaskId: true,
           storyPoint: true,
-        },
-        cacheStrategy: {
-          ...CACHE_STRATEGY.DEFAULT,
-          tags: ["subtasksForCategory"],
         },
       })
     : [];
@@ -267,10 +246,6 @@ export async function findCountTasksByCategory(sprintIds: string[]) {
           id: true,
           name: true,
           color: true,
-        },
-        cacheStrategy: {
-          ...CACHE_STRATEGY.DEFAULT,
-          tags: ["categoryNames"],
         },
       })
     : [];
@@ -320,10 +295,6 @@ export async function findTotalTaskToQACounts(
       name: true,
       parentTaskId: true,
       assignees: { select: { engineerId: true } },
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["findTotalTaskToQACounts"],
     },
   })) as TaskWithAssignees[];
 
@@ -415,10 +386,6 @@ export async function findAverageSPAndMergedCountBySprintIds(
           },
         },
       },
-      cacheStrategy: {
-        ...CACHE_STRATEGY.DEFAULT,
-        tags: [`tasks_eng_${engineerId}`, `sprints_${sprintKey}`],
-      },
     })) as (TaskWithTags & {
       id: string;
       name: string;
@@ -430,10 +397,6 @@ export async function findAverageSPAndMergedCountBySprintIds(
     await prisma.sprintGitlab.findMany({
       where: { sprintId: { in: sprintIds }, engineerId },
       select: { sprintId: true },
-      cacheStrategy: {
-        ...CACHE_STRATEGY.DEFAULT,
-        tags: [`gitlab_eng_${engineerId}`, `sprints_${sprintKey}`],
-      },
     }),
   ]);
 
@@ -667,10 +630,6 @@ export async function findTasksByCategory(
     orderBy: {
       name: "asc",
     },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["tasksByCategory"],
-    },
   });
 
   // Get all subtasks for these parent tasks
@@ -685,10 +644,6 @@ export async function findTasksByCategory(
           select: {
             parentTaskId: true,
             storyPoint: true,
-          },
-          cacheStrategy: {
-            ...CACHE_STRATEGY.DEFAULT,
-            tags: ["subtasksByCategory"],
           },
         })
       : [];
@@ -796,10 +751,6 @@ export async function findAllTasksByCategories(sprintIds: string[]) {
         name: "asc",
       },
     ],
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["allTasksByCategories"],
-    },
   });
 
   // Get all subtasks for these parent tasks
@@ -814,10 +765,6 @@ export async function findAllTasksByCategories(sprintIds: string[]) {
           select: {
             parentTaskId: true,
             storyPoint: true,
-          },
-          cacheStrategy: {
-            ...CACHE_STRATEGY.DEFAULT,
-            tags: ["allSubtasksByCategories"],
           },
         })
       : [];
@@ -931,10 +878,6 @@ export async function findAllTasksByProjects(sprintIds: string[]) {
         name: "asc",
       },
     ],
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["allTasksByProjects"],
-    },
   });
 
   // Get all subtasks for these parent tasks
@@ -949,10 +892,6 @@ export async function findAllTasksByProjects(sprintIds: string[]) {
           select: {
             parentTaskId: true,
             storyPoint: true,
-          },
-          cacheStrategy: {
-            ...CACHE_STRATEGY.DEFAULT,
-            tags: ["allSubtasksByProjects"],
           },
         })
       : [];
@@ -1030,10 +969,6 @@ export async function findDetailedTaskToQACounts(
           },
         },
       },
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["findDetailedTaskToQACounts"],
     },
   });
 

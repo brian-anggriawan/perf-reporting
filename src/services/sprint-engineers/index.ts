@@ -1,7 +1,7 @@
 import { Decimal } from "@prisma/client/runtime/library";
 
 import { adjustBaselineTarget } from "@/actions/leave-holiday";
-import { getApiConfig, CACHE_STRATEGY } from "@/constants/server";
+import { getApiConfig } from "@/constants/server";
 import { getMergedMRsBySprintPeriod } from "@/lib/gitlab/mr"; // Ensure this function is defined
 import { prisma } from "@/services/db";
 
@@ -63,10 +63,6 @@ export async function linkSprintsToEngineers(
             targetCh: true,
           },
         },
-      },
-      cacheStrategy: {
-        ...CACHE_STRATEGY.DEFAULT,
-        tags: [`allEngineers_${organizationId}`],
       },
     });
 
@@ -316,10 +312,6 @@ export async function findCapacityVsRealityBySprintIds(
       },
     },
     orderBy: { id: "asc" },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["capacityVsReality"],
-    },
   });
 
   // Fetch all public holidays for the date range of all sprints
@@ -343,10 +335,6 @@ export async function findCapacityVsRealityBySprintIds(
     },
     select: {
       date: true,
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["publicHolidays"],
     },
   });
 
@@ -450,10 +438,6 @@ export async function findTopPerformersBySprintIds(sprintIds: string[]) {
       storyPoints: true, // Calculate the average story points
       target: true, // Calculate the average target
     },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["topPerformers"],
-    },
   });
 
   // Fetch engineer details in one query
@@ -465,10 +449,6 @@ export async function findTopPerformersBySprintIds(sprintIds: string[]) {
       id: true,
       name: true,
       email: true,
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["allPerformers"],
     },
   });
 
@@ -514,10 +494,6 @@ export async function findEngineerTrendBySprintIds(sprintIds: string[]) {
       storyPoints: true,
     },
     orderBy: [{ sprintId: "asc" }, { storyPoints: "desc" }],
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["sprintStoryPoints"],
-    },
   });
 
   const sprintMap = new Map<
@@ -577,10 +553,6 @@ export async function findAveragesByEngineerAndSprintIds(
       codingHours: true,
       targetCh: true,
       baselineCh: true,
-    },
-    cacheStrategy: {
-      ...CACHE_STRATEGY.DEFAULT,
-      tags: ["findAveragesByEngineerAndSprintIds"],
     },
   });
 
